@@ -201,10 +201,22 @@
     function openChat(){if(window.voiceflow&&window.voiceflow.chat)window.voiceflow.chat.open();}
   </script>
   <script>
-    // PWA Service Worker
+    // Clean old caches & re-register fresh SW
     if('serviceWorker' in navigator){
-      navigator.serviceWorker.register('sw.js').then(function(){
-        console.log('PWA Service Worker registered');
+      // Unregister old broken SWs first
+      navigator.serviceWorker.getRegistrations().then(function(regs){
+        var promises = regs.map(function(r){ return r.unregister(); });
+        return Promise.all(promises);
+      }).then(function(){
+        // Clear all old caches
+        return caches.keys().then(function(names){
+          return Promise.all(names.map(function(n){ return caches.delete(n); }));
+        });
+      }).then(function(){
+        // Register fresh SW
+        navigator.serviceWorker.register('sw.js').then(function(){
+          console.log('Fresh SW registered');
+        });
       });
     }
 
