@@ -16,10 +16,19 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     :root{--pri:#6366f1;--acc:#c084fc;--bg:#0f0a1e;--card:rgba(255,255,255,0.04);--txt:#f1f5f9;--muted:#94a3b8}
-    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden;position:relative}
 
-    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;
-      background:radial-gradient(ellipse at 20% 50%,rgba(99,102,241,.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(192,132,252,.1) 0%,transparent 50%),var(--bg)}
+    /* Animated floating orbs */
+    .bg-orbs{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+    .bg-orbs .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.15;animation:float 20s ease-in-out infinite}
+    .bg-orbs .orb:nth-child(1){width:400px;height:400px;background:radial-gradient(circle,#6366f1,transparent);top:-10%;left:-5%;animation-duration:25s}
+    .bg-orbs .orb:nth-child(2){width:350px;height:350px;background:radial-gradient(circle,#c084fc,transparent);top:40%;right:-8%;animation-duration:20s;animation-delay:-5s}
+    .bg-orbs .orb:nth-child(3){width:300px;height:300px;background:radial-gradient(circle,#818cf8,transparent);bottom:5%;left:30%;animation-duration:22s;animation-delay:-10s}
+    .bg-orbs .orb:nth-child(4){width:200px;height:200px;background:radial-gradient(circle,#a78bfa,transparent);top:20%;left:50%;animation-duration:18s;animation-delay:-3s}
+    @keyframes float{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(60px,-40px) scale(1.1)}50%{transform:translate(-30px,50px) scale(.9)}75%{transform:translate(-50px,-20px) scale(1.05)}}
+
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;position:relative;z-index:1;
+      background:radial-gradient(ellipse at 20% 50%,rgba(99,102,241,.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(192,132,252,.1) 0%,transparent 50%),transparent}
     .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);padding:6px 16px;border-radius:50px;font-size:12px;font-weight:600;color:var(--acc);margin-bottom:24px}
     .hero h1{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,58px);font-weight:700;line-height:1.1;margin-bottom:20px;background:linear-gradient(135deg,#fff,#c084fc,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .hero p{font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:36px;max-width:500px}
@@ -30,7 +39,7 @@
     .btn-o{background:transparent;color:var(--txt);border:2px solid rgba(255,255,255,.15)}
     .btn-o:hover{border-color:var(--acc);background:rgba(255,255,255,.05)}
 
-    .section{padding:70px 20px;max-width:1100px;margin:0 auto}
+    .section{padding:70px 20px;max-width:1100px;margin:0 auto;position:relative;z-index:1}
     .stitle{text-align:center;margin-bottom:40px}
     .stitle h2{font-family:'Playfair Display',serif;font-size:32px;margin-bottom:10px}
     .stitle p{color:var(--muted);font-size:14px}
@@ -48,11 +57,27 @@
     .cta-box h2{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:10px}
     .cta-box p{color:var(--muted);margin-bottom:20px;font-size:14px}
 
-    footer{text-align:center;padding:24px;border-top:1px solid rgba(255,255,255,.06);color:var(--muted);font-size:12px}
+    footer{text-align:center;padding:24px 24px 80px;border-top:1px solid rgba(255,255,255,.06);color:var(--muted);font-size:12px}
+    .install-banner{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#1e1b4b,#312e81);border-top:1px solid rgba(99,102,241,.4);padding:14px 20px;display:flex;align-items:center;justify-content:center;gap:12px;z-index:9999;transform:translateY(100%);transition:transform .4s ease;box-shadow:0 -4px 30px rgba(0,0,0,.4)}
+    .install-banner.show{transform:translateY(0)}
+    .install-banner .ib-icon{font-size:28px}
+    .install-banner .ib-text h4{font-size:13px;font-weight:700;color:#fff;margin-bottom:1px}
+    .install-banner .ib-text p{font-size:11px;color:#a5b4fc}
+    .install-banner .ib-btn{padding:10px 18px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.2s}
+    .install-banner .ib-btn:hover{transform:scale(1.05);box-shadow:0 4px 16px rgba(99,102,241,.5)}
+    .install-banner .ib-close{background:none;border:none;color:#64748b;font-size:18px;cursor:pointer;padding:4px}
     @media(max-width:600px){.sg{grid-template-columns:1fr}.hero-btns{flex-direction:column;align-items:center}}
   </style>
 </head>
 <body>
+
+  <!-- Animated Background Orbs -->
+  <div class="bg-orbs">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
 
   <section class="hero">
     <div>
@@ -133,6 +158,17 @@
 
   <footer><p>© 2026 Salonas. Visos teisės saugomos.</p></footer>
 
+  <!-- Install App Banner -->
+  <div class="install-banner" id="installBanner">
+    <span class="ib-icon">📲</span>
+    <div class="ib-text">
+      <h4>Parsisiųskite mūsų App!</h4>
+      <p>Greitas vizitų rezervavimas vienu paspaudimu</p>
+    </div>
+    <button class="ib-btn" id="installBtn">Parsisiųsti</button>
+    <button class="ib-close" id="installClose">✕</button>
+  </div>
+
   <script src="booking-extension.js"></script>
   <script type="text/javascript">
     (function(d,t){
@@ -168,9 +204,55 @@
     // PWA Service Worker
     if('serviceWorker' in navigator){
       navigator.serviceWorker.register('/sw.js').then(function(){
-        console.log('✅ PWA Service Worker registered');
+        console.log('PWA Service Worker registered');
       });
     }
+
+    // PWA Install Banner Logic
+    var deferredPrompt = null;
+    var banner = document.getElementById('installBanner');
+    var installBtn = document.getElementById('installBtn');
+    var closeBtn = document.getElementById('installClose');
+
+    // Catch the install prompt (Android/Desktop Chrome)
+    window.addEventListener('beforeinstallprompt', function(e){
+      e.preventDefault();
+      deferredPrompt = e;
+      setTimeout(function(){ banner.classList.add('show'); }, 2000);
+    });
+
+    // iOS detection (Safari has no beforeinstallprompt)
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    var isStandalone = window.navigator.standalone === true;
+    if(isIOS && !isStandalone){
+      setTimeout(function(){
+        installBtn.textContent = 'Kaip parsisiusti?';
+        installBtn.onclick = function(){
+          alert('Kaip parsisiusti:\n\n1. Paspauskite Share mygtuka apacioje\n2. Pasirinkite Add to Home Screen\n3. Paspauskite Add\n\nApp ikonele atsiras pagrindiniame ekrane!');
+        };
+        banner.classList.add('show');
+      }, 2000);
+    }
+
+    // Install button click
+    installBtn.addEventListener('click', function(){
+      if(!deferredPrompt) return;
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function(result){
+        if(result.outcome === 'accepted') banner.classList.remove('show');
+        deferredPrompt = null;
+      });
+    });
+
+    // Close banner
+    closeBtn.addEventListener('click', function(){
+      banner.classList.remove('show');
+    });
+
+    // Hide if already installed
+    window.addEventListener('appinstalled', function(){
+      banner.classList.remove('show');
+    });
   </script>
 </body>
 </html>
