@@ -79,6 +79,27 @@
       width:100% !important;
       height:100% !important;
     }
+
+    /* Install bar */
+    .install-bar{
+      display:none;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:10px 16px;
+      background:linear-gradient(135deg,#6366f1,#8b5cf6);
+      flex-shrink:0;
+      animation:slideDown .4s ease;
+    }
+    .install-bar.show{display:flex}
+    .install-bar p{color:#fff;font-size:13px;font-weight:500}
+    .install-bar button{
+      padding:7px 16px;border:2px solid #fff;border-radius:8px;
+      background:transparent;color:#fff;font-size:12px;font-weight:700;
+      cursor:pointer;transition:.2s;
+    }
+    .install-bar button:hover{background:#fff;color:#6366f1}
+    @keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
   </style>
 </head>
 <body>
@@ -90,6 +111,12 @@
       <h1>Salonas</h1>
       <p><span class="dot"></span> Grožio asistentė online</p>
     </div>
+  </div>
+
+  <!-- Install Bar -->
+  <div class="install-bar" id="installBar">
+    <p>📲 Įdiekite šią app!</p>
+    <button id="installAppBtn">Įdiegti</button>
   </div>
 
   <!-- Chat Area -->
@@ -130,39 +157,33 @@
       navigator.serviceWorker.register('sw.js');
     }
 
-    // Auto-trigger PWA install
+    // Install logic
     var deferredPrompt = null;
-    window.addEventListener('beforeinstallprompt', function(e){
-      e.preventDefault();
-      deferredPrompt = e;
-      // Auto-trigger install immediately
-      setTimeout(function(){
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(function(result){
-          deferredPrompt = null;
-        });
-      }, 1500);
-    });
+    var installBar = document.getElementById('installBar');
+    var installBtn = document.getElementById('installAppBtn');
+    var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-    // iOS — show instructions modal
-    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    var isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
-    if(isIOS && !isStandalone){
-      setTimeout(function(){
-        var modal = document.createElement('div');
-        modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)';
-        var box = document.createElement('div');
-        box.style.cssText = 'background:linear-gradient(135deg,#1e1b4b,#312e81);border:1px solid rgba(99,102,241,.4);border-radius:18px;padding:30px 24px;max-width:340px;width:100%;text-align:center;color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.5)';
-        box.innerHTML = '<div style="font-size:40px;margin-bottom:12px">📱</div><h3 style="font-size:18px;margin-bottom:14px">Parsisiųsti App</h3><div style="text-align:left;font-size:13px;color:#c7d2fe;line-height:1.8"><div style="margin-bottom:8px">1️⃣ Paspauskite <b style=color:#fff>⬆️ Share</b> mygtuką apačioje</div><div style="margin-bottom:8px">2️⃣ Pasirinkite <b style=color:#fff>Add to Home Screen</b></div><div>3️⃣ Paspauskite <b style=color:#fff>Add</b></div></div><p style="margin-top:14px;font-size:11px;color:#818cf8">✨ App su chatbot atsiras ekrane!</p>';
-        var closeModal = document.createElement('button');
-        closeModal.textContent = 'Supratau ✓';
-        closeModal.style.cssText = 'margin-top:18px;padding:12px 28px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer';
-        closeModal.onclick = function(){ document.body.removeChild(modal); };
-        box.appendChild(closeModal);
-        modal.appendChild(box);
-        modal.onclick = function(e){ if(e.target === modal) document.body.removeChild(modal); };
-        document.body.appendChild(modal);
-      }, 2000);
+    // Don't show install bar if already running as installed app
+    if(!isStandalone){
+      window.addEventListener('beforeinstallprompt', function(e){
+        e.preventDefault();
+        deferredPrompt = e;
+        installBar.classList.add('show');
+      });
+
+      installBtn.addEventListener('click', function(){
+        if(deferredPrompt){
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(function(choice){
+            if(choice.outcome === 'accepted') installBar.classList.remove('show');
+            deferredPrompt = null;
+          });
+        }
+      });
+
+      window.addEventListener('appinstalled', function(){
+        installBar.classList.remove('show');
+      });
     }
   </script>
 

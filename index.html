@@ -230,40 +230,24 @@
     // Show banner after 2 seconds
     setTimeout(function(){ banner.classList.add('show'); }, 2000);
 
-    // Catch the Chrome install prompt
+    // Try to catch native install prompt
     window.addEventListener('beforeinstallprompt', function(e){
       e.preventDefault();
       deferredPrompt = e;
     });
 
-    // Parsisiųsti button → trigger native install dialog
+    // Parsisiųsti button click
     installBtn.addEventListener('click', function(){
       if(deferredPrompt){
-        // Chrome/Android — show native install dialog
+        // Native install available
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then(function(choice){
           if(choice.outcome === 'accepted') banner.classList.remove('show');
           deferredPrompt = null;
         });
       } else {
-        // iOS — show instructions
-        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        var modal = document.createElement('div');
-        modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)';
-        var box = document.createElement('div');
-        box.style.cssText = 'background:linear-gradient(135deg,#1e1b4b,#312e81);border:1px solid rgba(99,102,241,.4);border-radius:18px;padding:30px 24px;max-width:340px;width:100%;text-align:center;color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.5)';
-        if(isIOS){
-          box.innerHTML = '<div style="font-size:40px;margin-bottom:12px">📱</div><h3 style="font-size:18px;margin-bottom:14px">Parsisiųsti App</h3><div style="text-align:left;font-size:13px;color:#c7d2fe;line-height:1.8"><div style="margin-bottom:8px">1️⃣ Paspauskite <b style=color:#fff>⬆️ Share</b> apačioje</div><div style="margin-bottom:8px">2️⃣ Pasirinkite <b style=color:#fff>Add to Home Screen</b></div><div>3️⃣ Paspauskite <b style=color:#fff>Add</b></div></div>';
-        } else {
-          box.innerHTML = '<div style="font-size:40px;margin-bottom:12px">📲</div><h3 style="font-size:18px;margin-bottom:14px">Parsisiųsti App</h3><div style="text-align:left;font-size:13px;color:#c7d2fe;line-height:1.8"><div style="margin-bottom:8px">1️⃣ Atidarykite <b style=color:#fff>Chrome</b></div><div style="margin-bottom:8px">2️⃣ Paspauskite <b style=color:#fff>⋮</b> viršuje</div><div>3️⃣ <b style=color:#fff>Install app</b></div></div>';
-        }
-        var btn = document.createElement('button');
-        btn.textContent = 'Supratau ✓';
-        btn.style.cssText = 'margin-top:18px;padding:12px 28px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer';
-        btn.onclick = function(){ document.body.removeChild(modal); };
-        box.appendChild(btn); modal.appendChild(box);
-        modal.onclick = function(e){ if(e.target===modal) document.body.removeChild(modal); };
-        document.body.appendChild(modal);
+        // Navigate to chatbot app (same window) — it will handle install there
+        window.location.href = 'app.html';
       }
     });
 
