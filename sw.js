@@ -1,11 +1,11 @@
-const CACHE_NAME = 'salonas-v1';
+const CACHE_NAME = 'salonas-v2';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/booking-extension.js',
-  '/manifest.json',
-  '/icon-192.png',
-  '/icon-512.png'
+  './',
+  './index.html',
+  './booking-extension.js',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 // Install – cache core assets
@@ -28,8 +28,8 @@ self.addEventListener('activate', e => {
 
 // Fetch – network first, fallback to cache
 self.addEventListener('fetch', e => {
-  // Skip Voiceflow API calls
   if (e.request.url.includes('voiceflow.com')) return;
+  if (e.request.url.includes('googleapis.com')) return;
   
   e.respondWith(
     fetch(e.request)
