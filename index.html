@@ -214,34 +214,33 @@
     var installBtn = document.getElementById('installBtn');
     var closeBtn = document.getElementById('installClose');
 
-    // Catch the install prompt (Android/Desktop Chrome)
+    // Always show banner after 2 seconds
+    setTimeout(function(){ banner.classList.add('show'); }, 2000);
+
+    // Catch the native install prompt (Android/Desktop Chrome)
     window.addEventListener('beforeinstallprompt', function(e){
       e.preventDefault();
       deferredPrompt = e;
-      setTimeout(function(){ banner.classList.add('show'); }, 2000);
     });
-
-    // iOS detection (Safari has no beforeinstallprompt)
-    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    var isStandalone = window.navigator.standalone === true;
-    if(isIOS && !isStandalone){
-      setTimeout(function(){
-        installBtn.textContent = 'Kaip parsisiusti?';
-        installBtn.onclick = function(){
-          alert('Kaip parsisiusti:\n\n1. Paspauskite Share mygtuka apacioje\n2. Pasirinkite Add to Home Screen\n3. Paspauskite Add\n\nApp ikonele atsiras pagrindiniame ekrane!');
-        };
-        banner.classList.add('show');
-      }, 2000);
-    }
 
     // Install button click
     installBtn.addEventListener('click', function(){
-      if(!deferredPrompt) return;
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(function(result){
-        if(result.outcome === 'accepted') banner.classList.remove('show');
-        deferredPrompt = null;
-      });
+      if(deferredPrompt){
+        // Native install available
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function(result){
+          if(result.outcome === 'accepted') banner.classList.remove('show');
+          deferredPrompt = null;
+        });
+      } else {
+        // Show manual instructions
+        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        if(isIOS){
+          alert('Kaip parsisiusti iPhone:\n\n1. Paspauskite Share mygtuka apacioje\n2. Pasirinkite Add to Home Screen\n3. Paspauskite Add\n\nApp ikonele atsiras pagrindiniame ekrane!');
+        } else {
+          alert('Kaip parsisiusti:\n\n1. Atidarykite sia svetaine Chrome narskykleje\n2. Paspauskite 3 taskus virsuje desinieje\n3. Pasirinkite Add to Home Screen\n\nApp ikonele atsiras jusu telefone!');
+        }
+      }
     });
 
     // Close banner
