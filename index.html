@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salonas – Grožio Studija</title>
+  <meta name="description" content="Profesionalios grožio paslaugos: nagų procedūros, plaukų kirpimai, makiažas, kosmetologija. Rezervuokite vizitą online!">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Salonas">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="icon" type="image/png" href="/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{--pri:#6366f1;--acc:#c084fc;--bg:#0f0a1e;--card:rgba(255,255,255,0.04);--txt:#f1f5f9;--muted:#94a3b8}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden}
+
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;
+      background:radial-gradient(ellipse at 20% 50%,rgba(99,102,241,.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(192,132,252,.1) 0%,transparent 50%),var(--bg)}
+    .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);padding:6px 16px;border-radius:50px;font-size:12px;font-weight:600;color:var(--acc);margin-bottom:24px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,58px);font-weight:700;line-height:1.1;margin-bottom:20px;background:linear-gradient(135deg,#fff,#c084fc,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero p{font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:36px;max-width:500px}
+    .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;border:none;transition:.3s;text-decoration:none}
+    .btn-p{background:linear-gradient(135deg,var(--pri),var(--acc));color:#fff;box-shadow:0 4px 20px rgba(99,102,241,.4)}
+    .btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(99,102,241,.5)}
+    .btn-o{background:transparent;color:var(--txt);border:2px solid rgba(255,255,255,.15)}
+    .btn-o:hover{border-color:var(--acc);background:rgba(255,255,255,.05)}
+
+    .section{padding:70px 20px;max-width:1100px;margin:0 auto}
+    .stitle{text-align:center;margin-bottom:40px}
+    .stitle h2{font-family:'Playfair Display',serif;font-size:32px;margin-bottom:10px}
+    .stitle p{color:var(--muted);font-size:14px}
+
+    .cat-title{font-size:20px;font-weight:700;margin:30px 0 16px;padding-left:4px;color:var(--acc)}
+    .cat-title:first-of-type{margin-top:0}
+    .sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:10px}
+    .sc{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:20px 18px;transition:.3s}
+    .sc:hover{border-color:rgba(99,102,241,.3);transform:translateY(-3px);box-shadow:0 10px 30px rgba(99,102,241,.1)}
+    .sc h3{font-size:14px;font-weight:600;margin-bottom:6px}
+    .sc .price{font-size:16px;font-weight:700;color:var(--acc)}
+
+    .cta{text-align:center;padding:50px 20px 80px}
+    .cta-box{max-width:550px;margin:0 auto;background:linear-gradient(135deg,rgba(99,102,241,.12),rgba(192,132,252,.08));border:1px solid rgba(99,102,241,.2);border-radius:18px;padding:36px 28px}
+    .cta-box h2{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:10px}
+    .cta-box p{color:var(--muted);margin-bottom:20px;font-size:14px}
+
+    footer{text-align:center;padding:24px;border-top:1px solid rgba(255,255,255,.06);color:var(--muted);font-size:12px}
+    @media(max-width:600px){.sg{grid-template-columns:1fr}.hero-btns{flex-direction:column;align-items:center}}
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div>
+      <div class="badge">✨ Grožio Studija</div>
+      <h1>Jūsų Grožis — Mūsų Aistra</h1>
+      <p>Profesionalios grožio paslaugos jaukioje aplinkoje. Rezervuokite vizitą per mūsų chatbot'ą — greitai ir paprastai.</p>
+      <div class="hero-btns">
+        <button class="btn btn-p" onclick="openChat()">💬 Rezervuoti vizitą</button>
+        <a href="#paslaugos" class="btn btn-o">Paslaugos ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="paslaugos">
+    <div class="stitle"><h2>Mūsų Paslaugos</h2><p>Rinkitės tai, kas jums tinka geriausiai</p></div>
+
+    <div class="cat-title">💅 Nagų procedūros</div>
+    <div class="sg">
+      <div class="sc"><h3>Nagų priauginimas</h3><span class="price">40 €</span></div>
+      <div class="sc"><h3>Priaugintų nagų korekcija</h3><span class="price">30 €</span></div>
+      <div class="sc"><h3>Manikiūras su ilgalaikiu lakavimu</h3><span class="price">25 €</span></div>
+      <div class="sc"><h3>Pedikiūras</h3><span class="price">40 €</span></div>
+      <div class="sc"><h3>Ekspres pedikiūras</h3><span class="price">30 €</span></div>
+    </div>
+
+    <div class="cat-title">💇 Plaukų kirpimas / procedūros</div>
+    <div class="sg">
+      <div class="sc"><h3>Vyriškas kirpimas</h3><span class="price">15–20 €</span></div>
+      <div class="sc"><h3>Barzdos kirpimas</h3><span class="price">5–10 €</span></div>
+      <div class="sc"><h3>Galvos plovimas</h3><span class="price">3 €</span></div>
+      <div class="sc"><h3>Šventinis vyriškas sušukavimas</h3><span class="price">10–15 €</span></div>
+      <div class="sc"><h3>Vaikų kirpimas</h3><span class="price">12–15 €</span></div>
+      <div class="sc"><h3>Moteriški kirpimai</h3><span class="price">15–25 €</span></div>
+      <div class="sc"><h3>Dažymai įvairiomis technikomis</h3><span class="price">nuo 50 €</span></div>
+      <div class="sc"><h3>Šukuosenos</h3><span class="price">30–60 €</span></div>
+      <div class="sc"><h3>Gydomosios plaukų procedūros</h3><span class="price">30–60 €</span></div>
+    </div>
+
+    <div class="cat-title">✨ Ilgalaikis makiažas ir blakstienų grožis</div>
+    <div class="sg">
+      <div class="sc"><h3>Ilgalaikis makiažas (antakių, lūpų, akių)</h3><span class="price">80 €</span></div>
+      <div class="sc"><h3>Ilgalaikio makiažo korekcija (3 mėn.)</h3><span class="price">50 €</span></div>
+      <div class="sc"><h3>Blakstienų priauginimas</h3><span class="price">40 €</span></div>
+      <div class="sc"><h3>Blakstienų korekcija</h3><span class="price">30 €</span></div>
+      <div class="sc"><h3>Blakstienų dažymas</h3><span class="price">10 €</span></div>
+    </div>
+
+    <div class="cat-title">💄 Makiažas ir antakiai</div>
+    <div class="sg">
+      <div class="sc"><h3>Makiažas</h3><span class="price">35–50 €</span></div>
+      <div class="sc"><h3>Antakių korekcija / dažymas</h3><span class="price">15 €</span></div>
+      <div class="sc"><h3>Antakių korekcija / dažymas / laminavimas</h3><span class="price">20 €</span></div>
+      <div class="sc"><h3>Antakių korekcija vašku / pincetu</h3><span class="price">8–10 €</span></div>
+    </div>
+
+    <div class="cat-title">🧴 Kosmetologės paslaugos</div>
+    <div class="sg">
+      <div class="sc"><h3>Depiliacija vašku</h3><span class="price">10–30 €</span></div>
+      <div class="sc"><h3>Veido valymas</h3><span class="price">50–60 €</span></div>
+      <div class="sc"><h3>Rūgštiniai pilingai</h3><span class="price">nuo 40 €</span></div>
+      <div class="sc"><h3>Veido procedūros</h3><span class="price">nuo 40 €</span></div>
+      <div class="sc"><h3>Lipolitikai – Pagurklis</h3><span class="price">40 €</span></div>
+      <div class="sc"><h3>Lipolitikai – Rankos</h3><span class="price">65 €</span></div>
+      <div class="sc"><h3>Lipolitikai – Pilvas</h3><span class="price">90 €</span></div>
+      <div class="sc"><h3>Lipolitikai – Pilvo šonai</h3><span class="price">65 €</span></div>
+      <div class="sc"><h3>Lipolitikai – Kojos</h3><span class="price">120 €</span></div>
+      <div class="sc"><h3>Lipolitikai – Nugarinė dalis</h3><span class="price">80 €</span></div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="cta-box">
+      <h2>📅 Pasiruošę rezervuoti?</h2>
+      <p>Paspauskite chatbot mygtuką apačioje dešinėje arba spauskite žemiau</p>
+      <button class="btn btn-p" onclick="openChat()">💬 Pradėti pokalbį</button>
+    </div>
+  </section>
+
+  <footer><p>© 2026 Salonas. Visos teisės saugomos.</p></footer>
+
+  <script src="booking-extension.js"></script>
+  <script type="text/javascript">
+    (function(d,t){
+      var v=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      v.onload=function(){
+        window.voiceflow.chat.load({
+          verify:{projectID:'69f9d9450a38788e98a97a18'},
+          url:'https://general-runtime.voiceflow.com',
+          versionID:'production',
+          voice:{url:"https://runtime-api.voiceflow.com"},
+          assistant:{extensions:[BookingExtension]},
+        }).then(function(){
+          // 1-a žinutė po 3 sekundžių
+          setTimeout(function(){
+            window.voiceflow.chat.proactive.push(
+              { type: 'text', payload: { message: '👋 Sveiki! Ieškote grožio paslaugų?' }}
+            );
+          }, 3000);
+
+          // 2-a žinutė po 4 sekundžių (1s po pirmos)
+          setTimeout(function(){
+            window.voiceflow.chat.proactive.push(
+              { type: 'text', payload: { message: '📅 Galiu padėti rezervuoti vizitą – greičiau nei per minutę! ✨' }}
+            );
+          }, 4000);
+        });
+      }
+      v.src="https://cdn.voiceflow.com/widget-next/bundle.mjs";v.type="text/javascript";s.parentNode.insertBefore(v,s);
+    })(document,'script');
+    function openChat(){if(window.voiceflow&&window.voiceflow.chat)window.voiceflow.chat.open();}
+  </script>
+  <script>
+    // PWA Service Worker
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('/sw.js').then(function(){
+        console.log('✅ PWA Service Worker registered');
+      });
+    }
+  </script>
+</body>
+</html>
