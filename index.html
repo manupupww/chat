@@ -201,9 +201,24 @@
     function openChat(){if(window.voiceflow&&window.voiceflow.chat)window.voiceflow.chat.open();}
   </script>
   <script>
-    // Register Service Worker
+    // One-time cache reset (v3)
+    var PWA_VER = 'v3';
     if('serviceWorker' in navigator){
-      navigator.serviceWorker.register('sw.js');
+      if(localStorage.getItem('pwa_ver') !== PWA_VER){
+        // Clear old SWs and cache, then reload
+        navigator.serviceWorker.getRegistrations().then(function(regs){
+          return Promise.all(regs.map(function(r){ return r.unregister(); }));
+        }).then(function(){
+          return caches.keys().then(function(k){
+            return Promise.all(k.map(function(n){ return caches.delete(n); }));
+          });
+        }).then(function(){
+          localStorage.setItem('pwa_ver', PWA_VER);
+          location.reload();
+        });
+      } else {
+        navigator.serviceWorker.register('sw.js');
+      }
     }
 
     // Install Banner Logic
