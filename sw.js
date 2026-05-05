@@ -1,9 +1,10 @@
-const CACHE_NAME = 'salonas-v2';
+const CACHE_NAME = 'salonas-v3';
 const ASSETS = [
   './',
   './index.html',
+  './app.html',
   './booking-extension.js',
-  './manifest.json',
+  './manifest-app.json',
   './icon-192.png',
   './icon-512.png'
 ];
