@@ -1,5 +1,5 @@
 /**
- * Voiceflow Booking Extension - Salon with Categories
+ * Booking Extension - Salon with Categories
  * Trace type: 'ext_booking'
  */
 
